@@ -19,13 +19,13 @@ def get_emotion_detector():
     """
     API endpoint for emotion detection functionality
     """
-    if not request.args or not request.args.get("textToAnalyze"):
-        return "Missing query parameter textToAnalyze", 400
-
     prediction = emotion_detector(request.args["textToAnalyze"])
 
     if not prediction:
         return "Internal server error", 500
+
+    if not prediction['dominant_emotion']:
+        return "Invalid text! Please try again!"
 
     return (
         "For the given statement, the system response is "
